@@ -13,7 +13,7 @@ def ievade():
             print('Nepareiza ievade')
     while True:
         try:
-            pievilkšanās_skaits = int(input("Ievadiet pievilkšanās skaitu: "))
+            pievilksanas_skaits = int(input("Ievadiet pievilkšanās skaitu: "))
             break
         except ValueError:
             print('Nepareiza ievade')
@@ -31,7 +31,7 @@ def ievade():
             print('Nepareiza ievade')
     while True:
         try:
-            dimanta_atspiešanās_skaits = int(input("Ievadiet dimanta atspiešanās skaitu: "))
+            dimanta_atspiesanas_skaits = int(input("Ievadiet dimanta atspiešanās skaitu: "))
             break
         except ValueError:
             print('Nepareiza ievade')
@@ -92,5 +92,17 @@ with open("rezultati.txt") as file:
 def trenet_kajas(pietupieni, vienas_kajas_pietupieni):
     print('Tavs šodienas treniņš:')
     print(f'Pietupienu skaits: {pietupieni*0.75+5}')
-def trenet_rokas(atspiesanas,dimanta_atspiesanas):
-    print("Tavs šodiens treniņš: ")
+    print(f"Vienas kājas pietupienu skaits: {vienas_kajas_pietupieni*0.75+1}")
+def trenet_krutis(atspiesanas,dimanta_atspiesanas):
+    print('Tavs šodienas treniņš:')
+    print(f'atspiešanās skaits: {atspiesanas*0.75+1}')
+    print(f"Dimanta atspiešanās skaits: {dimanta_atspiesanas*0.75+1}")
+def trenet_muguru(pievilksanas,muscle_up):
+    print('Tavs šodienas treniņš:')
+    print(f'Pievilkšanās skaits: {pievilksanas*0.75+1}')
+    print(f'Muscle ups skaits: {muscle_up*0.75+1}')
+def trenet_presiti(planks,sedus_augsa):
+    print("Tavs šodienas treniņš:")
+    print(f"Planka ilgums (sec): {planks*0.75+3}")
+    print(f"Sēdus augšā skaits: {sedus_augsa*0.75+5}")
+    
