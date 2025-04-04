@@ -94,7 +94,3 @@ def trenet_kajas(pietupieni, vienas_kajas_pietupieni):
     print(f'Pietupienu skaits: {pietupieni*0.75+5}')
 def trenet_rokas(atspiesanas,dimanta_atspiesanas):
     print("Tavs šodiens treniņš: ")
-
-
-
-print("Cau")
