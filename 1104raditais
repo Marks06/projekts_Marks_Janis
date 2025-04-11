@@ -1,0 +1,167 @@
+
+while True:
+    try:
+        pietupienu_skaits = int(input("Ievadiet pietupienu skaitu: "))
+        if pietupienu_skaits<1001 and pietupienu_skaits>-1:
+            break
+        else:
+            print('Nepareiza ievade')
+    except ValueError:
+        print('Nepareiza ievade')
+while True:
+    try:
+        vienas_kajas_pietupienu_skaits = int(input("Ievadiet vienas kājas pietupienu skaitu: ")) 
+        if vienas_kajas_pietupienu_skaits<1001 and vienas_kajas_pietupienu_skaits>-1:
+            break
+        else:
+            print('Nepareiza ievade')
+    except ValueError:
+        print('Nepareiza ievade')
+while True:
+    try:
+        pievilkšanās_skaits = int(input("Ievadiet pievilkšanās skaitu: "))
+        if pievilkšanās_skaits<1001 and pievilkšanās_skaits>-1:
+            break
+        else:
+            print('Nepareiza ievade')
+    except ValueError:
+        print('Nepareiza ievade')
+while True:
+    try:
+        muscle_up_skaits = int(input("Ievadiet muscle up skaitu: "))
+        if muscle_up_skaits<1001 and muscle_up_skaits>-1:
+            break
+        else:
+            print('Nepareiza ievade')
+    except ValueError:
+        print('Nepareiza ievade')
+while True:
+    try:
+        atspiesanas_skaits = int(input("Ievadiet atspiešanās skaitu: "))
+        if atspiesanas_skaits<1001 and atspiesanas_skaits>-1:
+            break
+        else:
+            print('Nepareiza ievade')
+    except ValueError:
+            print('Nepareiza ievade')
+while True:
+    try:
+        dimanta_atspiešanās_skaits = int(input("Ievadiet dimanta atspiešanās skaitu: "))
+        if dimanta_atspiešanās_skaits<1001 and dimanta_atspiešanās_skaits>-1:
+            break
+        else:
+            print('Nepareiza ievade')
+    except ValueError:
+            print('Nepareiza ievade')
+while True:
+    try:
+        sedus_augsa_skaits = int(input("Ievadiet sēdus augšā skaitu: "))
+        if sedus_augsa_skaits<1001 and sedus_augsa_skaits>-1:
+            break
+        else:
+            print('Nepareiza ievade')
+    except ValueError:
+        print('Nepareiza ievade')
+while True:
+    try:
+        planka_ilgums = float(input("Ievadiet planka ilgumu(sekundes): "))
+        if planka_ilgums<1001 and planka_ilgums>-1:
+            break
+        else:
+            print('Nepareiza ievade')
+    except ValueError:
+        print('Nepareiza ievade')
+
+        
+def trenini():
+    while True:
+        treneties=input("Vai vēlaties redzēt šodienas treniņa plānu? (J/N):")
+        if treneties == "J":
+            treneties=1
+            break 
+        elif treneties =="N":
+            treneties=0
+            break
+        else:
+            print("Nepareiza ievade.")
+    return treneties
+
+def treninu_izpilde():
+    while True:
+        izpilde = input("Vai jūs izpildījāt šodienas treniņu? (J/N):")
+        if izpilde == "J":
+            izpilde=1
+            break
+        elif izpilde == "N":
+            izpilde = 0
+            break
+        else:
+            print("Nepareiza ievade.")
+    return izpilde
+        
+
+def trenet_kajas(pietupieni, vienas_kajas_pietupieni):
+    print('----------------------------------')
+    print('Jūsu šodienas treniņu plāns:')
+    print(f'Pietupienu skaits: {round(pietupieni*0.75+5)}')
+    print(f'Vienas kājas pietupienu skaits: {round(vienas_kajas_pietupieni*0.75+1)}')
+    print('----------------------------------')
+def trenet_kruskurvi(atspiesanas,dimanta_atspiesanas):
+    print('----------------------------------')
+    print("Jūsu šodienas treniņu plāns: ")
+    print(f'atspiešanās skaits: {round(atspiesanas*0.75+1)}')
+    print(f'dimanta atspiešanās skaits: {round(dimanta_atspiesanas*0.75+1)}')
+    print('----------------------------------')
+def trenet_muguru(pievilksanas, muscle_up):
+    print('----------------------------------')
+    print('Jūsu šodienas treniņu plāns:')
+    print(f"Pievilkšanās skaits: {round(pievilksanas*0.75+1)}")
+    print(f"Muscle up skaits: {round(muscle_up*0.75+1)}")
+    print('----------------------------------')
+def trenet_presiti(sedus_augsa,planks):
+    print('Jūsu šodienas treniņu plāns:')
+    print(f"Sedus augšā skaits: {round(sedus_augsa*0.75+5)}")
+    print(f'Planka ilgums (sekundēs): {round(planks*0.75+3)}')
+    print('----------------------------------')
+def atputas_diena():
+    print("Jūsu šodienas treniņu plāns:")
+    print("Šodien treniņš nav, atpūtas diena.")
+    print('----------------------------------')
+
+
+def galvena():
+    #parbauda, vai ir jau dati, ko izmantot
+    #ja ir, tad:
+    trenini() 
+    #ja nav, tad 
+    #ievade()
+ 
+def treninu_plans():
+    trenini() 
+    global treneties
+    while treneties == 1: 
+        trenet_kajas()
+        treninu_izpilde()
+        if treninu_izpilde == 1:
+            with open('trenins.txt','w',encoding='UTF8'):
+                pass
+    
+
+
+def saglabasana():
+    with open('dati.txt','w',encoding='utf8')as file: 
+        file.write(str(pietupienu_skaits)+',') 
+        file.write(str(vienas_kajas_pietupienu_skaits)+',')
+        file.write(str(pievilkšanās_skaits)+',')
+        file.write(str(muscle_up_skaits)+',')
+        file.write(str(atspiesanas_skaits)+',')
+        file.write(str(dimanta_atspiešanās_skaits)+',')
+        file.write(str(sedus_augsa_skaits)+',')
+        file.write(str(planka_ilgums)+',')
+saraksts=[] 
+def parnes_uz_listu():
+    with open ('dati.txt','r',encoding='utf8')as file:
+        l = file.read().split(',')
+        saraksts.append(l) 
+        print(saraksts) 
+        
