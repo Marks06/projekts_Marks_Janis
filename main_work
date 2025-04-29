@@ -1,0 +1,200 @@
+import csv
+
+csv_file = 'dati.csv'
+csv_otrais = 'trenina_dati.csv'
+
+# Ensure files exist
+for fn in (csv_file, csv_otrais):
+    open(fn, 'a').close()
+
+# Read last entry from trenina_dati.csv or fallback to dati.csv
+
+def lasit_verteibas():
+    global pietupienu_skaits, vienas_kajas_pietupienu_skaits, pievilksanas_skaits
+    global muscle_up_skaits, atspiesanas_skaits, dimanta_atspiesanas_skaits
+    global sedus_augsa_skaits, planka_ilgums
+    try:
+        with open(csv_otrais, 'r', encoding='utf-8') as f:
+            rows = list(csv.reader(f))
+            header, *data = rows
+            last = data[-1]
+            (pietupienu_skaits, vienas_kajas_pietupienu_skaits, pievilksanas_skaits,
+             muscle_up_skaits, atspiesanas_skaits, dimanta_atspiesanas_skaits,
+             sedus_augsa_skaits, planka_ilgums) = last
+            pietupienu_skaits = int(pietupienu_skaits)
+            vienas_kajas_pietupienu_skaits = int(vienas_kajas_pietupienu_skaits)
+            pievilksanas_skaits = int(pievilksanas_skaits)
+            muscle_up_skaits = int(muscle_up_skaits)
+            atspiesanas_skaits = int(atspiesanas_skaits)
+            dimanta_atspiesanas_skaits = int(dimanta_atspiesanas_skaits)
+            sedus_augsa_skaits = int(sedus_augsa_skaits)
+            planka_ilgums = float(planka_ilgums)
+    except Exception:
+        with open(csv_file, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            row = next(reader)
+            pietupienu_skaits = int(row['pietupieni'])
+            vienas_kajas_pietupienu_skaits = int(row['vienas_kajas_pietupieni'])
+            pievilksanas_skaits = int(row['pievilksanas'])
+            muscle_up_skaits = int(row['muscle_up'])
+            atspiesanas_skaits = int(row['atspiesanas'])
+            dimanta_atspiesanas_skaits = int(row['dimanta_atspiesanas'])
+            sedus_augsa_skaits = int(row['sedus_augsa'])
+            planka_ilgums = float(row['planka_ilgums'])
+
+# Append current values to history file
+
+def parakstit_otra():
+    header = ['pietupieni','vienas_kajas_pietupieni','pievilksanas','muscle_up',
+              'atspiesanas','dimanta_atspiesanas','sedus_augsa','planka_ilgums']
+    values = [pietupienu_skaits, vienas_kajas_pietupienu_skaits, pievilksanas_skaits,
+              muscle_up_skaits, atspiesanas_skaits, dimanta_atspiesanas_skaits,
+              sedus_augsa_skaits, planka_ilgums]
+    with open(csv_otrais, 'a', encoding='utf-8', newline='') as f:
+        writer = csv.writer(f)
+        if f.tell() == 0:
+            writer.writerow(header)
+        writer.writerow(values)
+
+# Initial data entry to dati.csv if empty
+def ievade():
+    global pietupienu_skaits, vienas_kajas_pietupienu_skaits, pievilksanas_skaits
+    global muscle_up_skaits, atspiesanas_skaits, dimanta_atspiesanas_skaits
+    global sedus_augsa_skaits, planka_ilgums
+    with open(csv_file, 'r') as f:
+        if f.read(1):
+            return  # data exists
+    # same input loops as original, e.g.:
+    while True:
+        try:
+            pietupienu_skaits = int(input("Ievadiet pietupienu skaitu: "))
+            if 0 <= pietupienu_skaits <= 1000:
+                break
+        except ValueError:
+            pass
+        print('Nepareiza ievade')
+    # ... repeat for other exercises
+    # finally save to dati.csv
+    with open(csv_file, 'w', encoding='utf-8', newline='') as f:
+        fieldnames = ['pietupieni','vienas_kajas_pietupieni','pievilksanas','muscle_up',
+                      'atspiesanas','dimanta_atspiesanas','sedus_augsa','planka_ilgums']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerow({
+            'pietupieni': pietupienu_skaits,
+            'vienas_kajas_pietupieni': vienas_kajas_pietupienu_skaits,
+            'pievilksanas': pievilksanas_skaits,
+            'muscle_up': muscle_up_skaits,
+            'atspiesanas': atspiesanas_skaits,
+            'dimanta_atspiesanas': dimanta_atspiesanas_skaits,
+            'sedus_augsa': sedus_augsa_skaits,
+            'planka_ilgums': planka_ilgums
+        })
+
+# Helper for J/N
+
+def yes_no(prompt):
+    while True:
+        r = input(prompt).strip().upper()
+        if r in ('J', 'N'):
+            return r
+        print('Nepareiza ievade.')
+
+# Class-based sessions without renaming vars
+class Trenini:
+    def __init__(self):
+        lasit_verteibas()
+
+    def sagatave(self):
+        pass
+
+class Kajas(Trenini):
+    def sagatave(self):
+        ps_new = round(pietupienu_skaits * 0.75 + 5)
+        vkp_new = round(vienas_kajas_pietupienu_skaits * 0.75 + 1)
+        print('----------------------------------')
+        print('Jūsu šodienas treniņu plāns:')
+        print(f'Pietupienu skaits: {ps_new}')
+        print(f'Vienas kājas pietupienu skaits: {vkp_new}')
+        return {'pietupieni': ps_new, 'vienas_kajas_pietupieni': vkp_new}
+
+class Mugura(Trenini):
+    def sagatave(self):
+        pj_new = round(pievilksanas_skaits * 0.75 + 1)
+        mu_new = round(muscle_up_skaits * 0.75 + 1)
+        print('----------------------------------')
+        print('Jūsu šodienas treniņu plāns:')
+        print(f'Pievilkšanās skaits: {pj_new}')
+        print(f'Muscle up skaits: {mu_new}')
+        return {'pievilksanas': pj_new, 'muscle_up': mu_new}
+
+class Kruskurvis(Trenini):
+    def sagatave(self):
+        a_new = round(atspiesanas_skaits * 0.75 + 1)
+        da_new = round(dimanta_atspiesanas_skaits * 0.75 + 1)
+        print('----------------------------------')
+        print('Jūsu šodienas treniņu plāns:')
+        print(f'Atspiešanās skaits: {a_new}')
+        print(f'Dimanta atspiešanās skaits: {da_new}')
+        return {'atspiesanas': a_new, 'dimanta_atspiesanas': da_new}
+
+class Vedera_presite(Trenini):
+    def sagatave(self):
+        sa_new = round(sedus_augsa_skaits * 0.75 + 5)
+        pl_new = round(planka_ilgums * 0.75 + 3)
+        print('----------------------------------')
+        print('Jūsu šodienas treniņu plāns:')
+        print(f'Sedus augšā skaits: {sa_new}')
+        print(f'Planka ilgums (sekundēs): {pl_new}')
+        return {'sedus_augsa': sa_new, 'planka_ilgums': pl_new}
+
+class Atputa(Trenini):
+    def sagatave(self):
+        print('----------------------------------')
+        print('Jūsu šodienas treniņu plāns:')
+        print('Šodien treniņš nav, atpūtas diena.')
+        return {}
+
+# Gala cilpa apvienojot sākotnējo logiku
+
+def galvena():
+    # 1) Ja dati.csv vēl tukšs, ievadi sākotnējos datus
+    ievade()
+    # 2) Nolasi no dati.csv vai trenina_dati.csv pēdējo rindu globālajiem mainīgajiem
+    lasit_verteibas()
+    # 3) Pieraksti tieši šo rindu vēstures failā
+    parakstit_otra()
+
+    # 5–dienu treniņu cikls
+    grupas = [Kajas, Mugura, Kruskurvis, Vedera_presite, Atputa]
+    diena = 0
+
+    while True:
+        resp = yes_no("Vai vēlaties redzēt šodienas treniņa plānu? (J/N): ")
+        if resp == "N":
+            print("Šodien netiek veikts treniņš, uz redzēšanos!")
+            break
+
+        # 4) Izsauc atbilstošo klasi un tās sagatavošanas metodi
+        sesija = grupas[diena % len(grupas)]()
+        izmaiņas = sesija.sagatave()
+
+        # 5) Ja ir izmaiņas (ne atpūta) un lietotājs izpildīja treniņu
+        if izmaiņas and yes_no("Vai jūs izpildījāt šodienas treniņu? (J/N): ") == "J":
+            # atjauno globālos mainīgos
+            for k, v in izmaiņas.items():
+                globals()[k] = v
+            # saglabā jaunās bāzes vērtības atpakaļ uz dati.csv
+            with open(csv_file, 'w', encoding='utf-8', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=izmaiņas.keys())
+                writer.writeheader()
+                writer.writerow(izmaiņas)
+            # un pieraksti arī vēsturē
+            parakstit_otra()
+            print("Dati saglabāti failā!")
+        elif izmaiņas:
+            print("Treniņš netiek ieskaitīts.")
+
+        diena += 1
+        print()
+galvena()
